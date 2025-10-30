@@ -1,4 +1,5 @@
 let page = "home"
+page = "equipamentos"
 
 $(document).ready(function () {
     $loadContent(page)
@@ -12,7 +13,7 @@ $loadContent = function ($page, $args = false) {
     }
 }
 
-$loadContentHome = function () {
+$loadContentHome = async function () {
     if ($(".col-12").find("table").length === 0) {
         $(".col-12").empty()
         let tb = "<table class='table table-responsive'>"
@@ -38,7 +39,7 @@ $loadContentHome = function () {
     }
 
     $("tbody").empty()
-    const result = $request("get", { "page": "home" });
+    const result = await $request("get", null, { "page": "home" });
     if (!result) { return }
     result.dados.map((element, index) => {
         if (element.equipamento_nome && element.interface) {
@@ -65,7 +66,7 @@ $loadContentHome = function () {
     })
 }
 
-$loadContentEquipamentos = function () {
+$loadContentEquipamentos = async function () {
     if ($(".col-12").find("table").length === 0) {
         $(".col-12").empty()
         let tb = "<table class='table table-responsive'>"
@@ -91,7 +92,7 @@ $loadContentEquipamentos = function () {
     }
 
     $("tbody").empty()
-    const result = $request("get", { "page": "home" });
+    const result = await $request("get", null, { "page": "home" });
     if (!result) { return }
     result.dados.map((element, index) => {
         if (element.equipamento_nome && element.interface) {
@@ -118,23 +119,19 @@ $loadContentEquipamentos = function () {
     })
 }
 
-$request = function (type = "get", data = []) {
-    let retorno = false
-    $.ajax(
-        {
-            url: "http://127.0.0.1", method: type, data: data, dataType: "json",
-            success: function (result) {
-                if (result.type === "error") {
-                    $alerts(result.msg, result.type)
-                    return
-                }
-                retorno = result
-            },
-            error: function (xhr, status, error) { $alerts(status, 'crítico') },
-            complete: function () { }
+$request = function (type = "get", endpoint = null, data = {}) {
+    return $.ajax(
+        { url: `http://127.0.0.1${endpoint ? "/".concat(endpoint) : ""}`, method: type, data: data, dataType: "json", }
+    ).then(result => {
+        if (result?.type === "error" || result == null) {
+            $alerts(result.msg, result.type)
+            return
         }
-    )
-    return retorno
+        return result
+    }).fail(err => {
+        $alerts(err.statusText || "Erro desconhecido", "crítico")
+        return
+    })
 }
 
 $alerts = function (msg, type, $duration = 5) {

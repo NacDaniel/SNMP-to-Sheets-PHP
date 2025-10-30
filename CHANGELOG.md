@@ -7,6 +7,9 @@ e este projeto adere ao [SemVer](https://semver.org/) para controle de versões.
 
 ## [Unreleased]
 
+## [0.0.2]
+- Tornando funções de renderização assincronas e utilizando promise para manter uma única função que realizada requisição
+
 ## [0.0.1]
 - Criação do javascript e manipulação do DOM para renderização da resposta que vem do php
 
