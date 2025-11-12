@@ -3,36 +3,33 @@ header {}
 main {
     padding-block: 4rem;
 
-    .equipamentos{
-        .actions {
+    td,tr {text-wrap: nowrap;}
 
-            #add {
-                display: none;
-                color: #27C46B;
-            }
-
-            #edit {
-                color: #FFC107;
-            }
-
-            #manage {
-                color: rgb(0, 180, 174);
-            }
-
-            #delete {
-                color: #E34724;
-            }
-
-            span {
-                cursor: pointer;
-            }:hover {
-                opacity: .8;
-            }
-            
-        }:has(input[type="text"]){
-            .actions #edit, .actions #manage {display: none;}
-            #add {display: inline;}
-        }
+    #modal_portas:has(input[type="text"]) {
+        .actions .edit, .actions .manage {display: none;}
+        .add {display: inline;}
     }
+
+    .equipamentos:has(input[type="text"]) {
+        .actions .edit, .actions .manage {display: none;}
+        .add {display: inline;}
+    }
+
+    .actions {
+        .add { display: none; color: #27C46B;}
+
+        .edit {color: #FFC107;}
+
+        .manage {color: rgb(0, 180, 174);}
+
+        .delete {color: #E34724;}
+
+        span {cursor: pointer}:hover {opacity: .8}
+
+
+        :hover {opacity: .8;} 
+    }
+
+
 
 }
